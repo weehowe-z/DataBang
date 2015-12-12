@@ -18,7 +18,7 @@ diet_basic_path = "./data/##ID##/diets.csv"
 user_id = "0a80c1dd"
 
 
-def getHeightWeight():
+def getHeightWeightScatter(file):
 	
 	user_basic_frame = read_csv(user_basic_path)
 	#user_basic_frame['身高/cm'].plot()
@@ -35,14 +35,20 @@ def getHeightWeight():
 			data.append(user_basic_frame['身高/cm'][i])
 			data.append(user_basic_frame['体重/kg'][i])
 			female.append(data)
-	return male,female
+	file.write("##Height-Weight-Scatter##\n\n")
+	file.write("Male\n" + str(male) + "\n\n")
+	file.write("Female\n" + str(female)+"\n\n\n")
 
 
 
 def main():
-	male,female = getHeightWeight()
-	print male
-	print female
+	file = open("./output.txt", 'a+')
+	try:
+		#getHeightWeightScatter(file)
+	except Exception, e:
+		raise
+	finally:
+		file.close()
 
 
 if __name__ == '__main__':
