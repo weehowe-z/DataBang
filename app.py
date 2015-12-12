@@ -20,30 +20,79 @@ user_id = "0a80c1dd"
 
 def getHeightWeightScatter(file):
 	
-	user_basic_frame = read_csv(user_basic_path)
-	#user_basic_frame['身高/cm'].plot()
+	frame = read_csv(user_basic_path)
+	#frame['身高/cm'].plot()
 	male = []
 	female = []
-	for i in range(0,len(user_basic_frame.index)):
-		if user_basic_frame['性别'][i]=='男':
+	for i in range(0,len(frame.index)):
+		if frame['性别'][i]=='男':
 			data = []
-			data.append(user_basic_frame['身高/cm'][i])
-			data.append(user_basic_frame['体重/kg'][i])
+			data.append(frame['身高/cm'][i])
+			data.append(frame['体重/kg'][i])
 			male.append(data)
-		elif user_basic_frame['性别'][i]=='女':
+		elif frame['性别'][i]=='女':
 			data = []
-			data.append(user_basic_frame['身高/cm'][i])
-			data.append(user_basic_frame['体重/kg'][i])
+			data.append(frame['身高/cm'][i])
+			data.append(frame['体重/kg'][i])
 			female.append(data)
 	file.write("##Height-Weight-Scatter##\n\n")
 	file.write("Male\n" + str(male) + "\n\n")
 	file.write("Female\n" + str(female)+"\n\n\n")
 
 
+def getDailyEnergyType1(file,people_id):
+	frame = read_csv(diet_basic_path.replace("##ID##",people_id))
+	prevDate = ""
+	dailyEnergy = []
+	data = None
+	for i in range(0,len(frame.index)):
+		if frame['日期'][i] != prevDate:
+			if data!=None:
+				dailyEnergy.append(data)
+			data = [0,0,0,0]
+			prevDate = frame['日期'][i]
+		if frame['类型'][i] == '早餐':
+			data[0] = frame['热量/kcal'][i]
+		elif frame['类型'][i] == '午餐':
+			data[1] = frame['热量/kcal'][i]
+		elif frame['类型'][i] == '晚餐':
+			data[2] = frame['热量/kcal'][i]
+		else:
+			data[3] = frame['热量/kcal'][i]
+	dailyEnergy.append(data)
+	file.write("##DaliyEnergy1##ID"+people_id+"\n\n")
+	file.write(str(dailyEnergy) + "\n\n")
+
+def getDailyEnergyType2(file,people_id):
+	frame = read_csv(diet_basic_path.replace("##ID##",people_id))
+	dailyEnergy = []
+	breakfast = [0,0,0,0,0,0,0]
+	lunch = [0,0,0,0,0,0,0]
+	dinner = [0,0,0,0,0,0,0]
+	other = [0,0,0,0,0,0,0]
+	data = None
+	for i in range(0,len(frame.index)):
+		date = int(frame['日期'][i][-1]) - 1
+		if frame['类型'][i] == '早餐':
+			breakfast[date] = frame['热量/kcal'][i]
+		elif frame['类型'][i] == '午餐':
+			lunch[date] = frame['热量/kcal'][i]
+		elif frame['类型'][i] == '晚餐':
+			dinner[date] = frame['热量/kcal'][i]
+		else:
+			other[date] = frame['热量/kcal'][i]
+
+	file.write("##DaliyEnergy2##ID"+people_id+"\n\n")
+	file.write(str(breakfast) + "\n")
+	file.write(str(lunch) + "\n")
+	file.write(str(dinner) + "\n")
+	file.write(str(other) + "\n")
+
 
 def main():
 	file = open("./output.txt", 'a+')
 	try:
+		getDailyEnergyType2(file,user_id)
 		#getHeightWeightScatter(file)
 	except Exception, e:
 		raise

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+    <h1>Hihihihi</h1>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:400px"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/line'
+                
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+                
+                option = {
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['早餐','午餐','晚餐','其他']
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            data : ['周一','周二','周三','周四','周五','周六','周日']
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'早餐',
+                            type:'line',
+                            stack: '总量',
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                            data:[359, 215, 0, 100, 165, 0, 268]
+                        },
+                        {
+                            name:'午餐',
+                            type:'line',
+                            stack: '总量',
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                            data:[322, 1000, 235, 590, 1000, 630, 298]
+                        },
+                        {
+                            name:'晚餐',
+                            type:'line',
+                            stack: '总量',
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                            data:[318, 100, 200, 450, 0, 500, 0]
+                        },
+                        {
+                            name:'其他',
+                            type:'line',
+                            stack: '总量',
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                            data:[0, 0, 0, 0, 0, 0, 0]
+
+                        },
+                    ]
+                };
+                    
+                // 为echarts对象加载数据 
+                myChart.setOption(option); 
+            }
+        );
+    </script>
+</body>
