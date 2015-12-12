@@ -19,29 +19,14 @@ user_id = "0a80c1dd"
 
 
 def main():
-	#user_basic_frame = read_csv(user_basic_path)
+	int totalNum = 0
+	user_basic_frame = read_csv(user_basic_path)
 	user_diets_frame = read_csv(diet_basic_path.replace("##ID##",user_id))
-	num = 0
-	daily_energy = []
-	energy = []
-	prevDate = ""
 
-	for diets in user_diets_frame	:
-		print user_diets_frame.head()
-	# for diets in user_diets_frame['热量/kcal']:
-	# 	if 
-	# 	daily_energy.append(float(diets))
-		
-	# 	if num%3 == 2:
-	# 		energy.append(daily_energy)
-	# 		daily_energy = []
-	# 	num += 1
-
-
-	# print energy
-	# df2 = DataFrame(energy, columns=['breakfast','lunch','dinner'])
-	# df2.plot(kind='barh', stacked=True);
-	# plt.show()
+	index_frame = user_basic_frame['编号']
+	for id in index_frame:
+		print id 
+	print index_frame
 
 
 

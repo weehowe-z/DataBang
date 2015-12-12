@@ -1,45 +1,10 @@
-import numpy
-import csv
-
-user_basic_path = "./data/user_basic.csv"
-
-def getAverage(datas):
-	total_height = 0
-	total_weight = 0
-	total_vital_capacity = 0
-	total_num = 0
-	for data in datas:
-		if float(data[2]) < 100:
-			total_height += float(data[2])*100
-		else:
-			total_height += float(data[2])
-		total_weight += float(data[3])
-		total_vital_capacity += float(data[8])
-		total_num += 1
-
-	average_height = total_height/total_num
-	average_weight = total_weight/total_num
-	average_capacity = total_vital_capacity/total_num
-	return average_height,average_weight,average_capacity
-
-
-
-def main():
-	readdata = csv.reader(open(user_basic_path))
-	datas = []
-
-	for row in readdata:
-	    datas.append(row)
-
-	print datas
-
-	total_height = 0
-	num = 0
-	datas.pop(0)
-	print getAverage(datas)
-
-
-
-
-if __name__ == '__main__':
-	main()
+import matplotlib.pyplot as plt
+import pandas as pd #this is how I usually import pandas
+import numpy as np
+import sys #only needed to determine Python version number
+import matplotlib #only needed to determine Matplotlib version number
+matplotlib.style.use('ggplot')
+ts = pd.Series(np.random.randn(1000), index=pd.date_range('1/1/2000', periods=1000))
+ts = ts.cumsum()
+ts.plot()
+plt.show()
