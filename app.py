@@ -14,6 +14,7 @@ print('Pandas version ' + pd.__version__)
 print('Matplotlib version ' + matplotlib.__version__)
 
 user_basic_path = "./data/user_basic.csv"
+user_life_path = "./data/user_life.csv"
 diet_basic_path = "./data/##ID##/diets.csv"
 user_id = "0a80c1dd"
 
@@ -88,12 +89,22 @@ def getDailyEnergyType2(file,people_id):
 	file.write(str(dinner) + "\n")
 	file.write(str(other) + "\n")
 
+def getAverageSleepTime():
+	frame = read_csv(user_life_path)
+	#print frame.describe()
+	num = 0
+	for i in range(0,len(frame.index)):
+		if frame['睡眠时长'][i]== '6h到7h' or frame['睡眠时长'][i] == '小于5小时' or frame['睡眠时长'][i]=="5h到6h":
+			print 1
+			num += 1
+	print num/float(len(frame.index))
 
 def main():
 	file = open("./output.txt", 'a+')
 	try:
-		getDailyEnergyType2(file,user_id)
+		#getDailyEnergyType2(file,user_id)
 		#getHeightWeightScatter(file)
+		getAverageSleepTime()
 	except Exception, e:
 		raise
 	finally:
